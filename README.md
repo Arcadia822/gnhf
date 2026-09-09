@@ -368,6 +368,11 @@ ACP bridge such as the third-party
 `acp:agy` alone would try to start `agy` as an ACP server; changing the command
 name does not convert its print-mode output into ACP.
 
+Before using this setup, review the bridge README's
+[Terms of Service risk](https://github.com/shubzkothekar/antigravity-acp#%EF%B8%8F-terms-of-service-risk)
+notice. The third-party bridge warns that using it with Antigravity OAuth may
+risk account suspension or termination.
+
 The following setup was tested with `antigravity-acp` 1.1.0 on macOS. Install
 [Bun](https://bun.com), install and sign in to `agy`, then verify `agy models`
 works. Install the bridge outside the repository gnhf will work on:
@@ -401,8 +406,7 @@ Choose a model ID listed by `agy models`. gnhf's `--model` and native
 setting of this bridge, forwarded to `agy`.
 
 Here `antigravity` is a local registry name for the ACP bridge, while `agy` is
-the underlying CLI. You can use `agy` as the registry key instead and invoke
-`--agent acp:agy`, provided that key still points to the bridge.
+the underlying CLI.
 
 The bridge runs `agy` with automatic tool approval and reads its local
 conversation databases to stream responses. Review the bridge's documentation
