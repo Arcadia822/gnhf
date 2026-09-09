@@ -360,6 +360,55 @@ Set `GNHF_TELEMETRY=0` to turn it off.
 | OpenCode           | `--agent opencode`                | Install `opencode` and configure at least one usable model provider first.                                                                                                          | `gnhf` starts a local `opencode serve --hostname 127.0.0.1 --port <port> --print-logs` process automatically, creates a per-run session, and applies a blanket allow rule so tool calls do not block on prompts.                                                                                                                                                                           |
 | ACP target         | `--agent acp:<target-or-command>` | Install and authenticate the target supported by the bundled [`acpx`](https://github.com/openclaw/acpx) registry, such as `acp:gemini`, or pass a quoted custom ACP server command. | `gnhf` runs the target through ACP with a persistent per-run session under `.gnhf/runs/<runId>/acp-sessions`; token usage and `--max-tokens` use ACP `used` deltas when available, with prompt-length plus tool-call estimates as a fallback, and `agentPathOverride` and `agentArgsOverride` do not apply.                                                                                |
 
+### Antigravity through ACP
+
+Antigravity's CLI executable is `agy`. To use it with gnhf, run a separate
+ACP bridge such as the third-party
+[`antigravity-acp`](https://github.com/shubzkothekar/antigravity-acp) server.
+`acp:agy` alone would try to start `agy` as an ACP server; changing the command
+name does not convert its print-mode output into ACP.
+
+The following setup was tested with `antigravity-acp` 1.1.0 on macOS. Install
+[Bun](https://bun.com), install and sign in to `agy`, then verify `agy models`
+works. Install the bridge outside the repository gnhf will work on:
+
+```sh
+git clone --branch v1.1.0 --depth 1 https://github.com/shubzkothekar/antigravity-acp.git
+cd antigravity-acp
+bun install --frozen-lockfile --ignore-scripts
+```
+
+Merge this entry into `acpRegistryOverrides` in `~/.gnhf/config.yml`, replacing
+the example with the absolute path to the bridge checkout:
+
+```yaml
+acpRegistryOverrides:
+  antigravity: 'bun "/absolute/path/to/antigravity-acp/index.ts"'
+```
+
+From the repository you want gnhf to work on, run:
+
+```sh
+AGY_BIN="$(command -v agy)" \
+AGY_EXTRA_ARGS="--model gemini-3.8-flash-medium --effort medium" \
+gnhf --agent acp:antigravity --max-iterations 1 "Your task"
+```
+
+These environment-variable examples use a POSIX shell. `AGY_BIN` makes the
+bridge use your existing CLI installation instead of downloading another copy.
+Choose a model ID listed by `agy models`. gnhf's `--model` and native
+`agentArgsOverride` settings do not apply to ACP targets; `AGY_EXTRA_ARGS` is a
+setting of this bridge, forwarded to `agy`.
+
+Here `antigravity` is a local registry name for the ACP bridge, while `agy` is
+the underlying CLI. You can use `agy` as the registry key instead and invoke
+`--agent acp:agy`, provided that key still points to the bridge.
+
+The bridge runs `agy` with automatic tool approval and reads its local
+conversation databases to stream responses. Review the bridge's documentation
+before use. gnhf token totals can be estimates when the bridge does not provide
+ACP usage updates.
+
 ## Development
 
 If you want to contribute changes back to this repo, see [`CONTRIBUTING.md`](./CONTRIBUTING.md) for the required workflow, dev commands, and repo conventions.
