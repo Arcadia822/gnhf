@@ -1,0 +1,23 @@
+{
+  "cliExitCode": 0,
+  "cliSignal": null,
+  "timedOut": false,
+  "fakeAgyWasInvoked": true,
+  "fakeAgyLog": "fake agy invoked with:",
+  "commitCount": "1",
+  "gnhfEvents": [
+    "run:start",
+    "orchestrator:start",
+    "iteration:start",
+    "agent:run:start",
+    "acp:runtime:created",
+    "agent:run:error",
+    "iteration:end",
+    "orchestrator:abort",
+    "orchestrator:end",
+    "run:complete"
+  ],
+  "stderrTail": [
+    "gnhf: Run log: /private/var/folders/82/6wh9nw116ln7t_88yzkxg1r80000gn/T/gnhf-agy-fake-negative-EpAoPJ/repo/.gnhf/runs/your-task-ccbed6/gnhf.log"
+  ]
+}

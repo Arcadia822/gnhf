@@ -1,0 +1,34 @@
+{
+  "cliExitCode": 0,
+  "cliSignal": null,
+  "branch": "gnhf/your-task-ccbed6",
+  "commitCount": "2",
+  "lastCommitSubject": "gnhf 1: antigravity registry override completed",
+  "mockEvents": [
+    "process:ready",
+    "agent:initialize",
+    "agent:newSession",
+    "agent:prompt:start",
+    "workspace:changed",
+    "agent:prompt:done"
+  ],
+  "gnhfEvents": [
+    "sleep:active",
+    "run:start",
+    "orchestrator:start",
+    "iteration:start",
+    "agent:run:start",
+    "acp:runtime:created",
+    "acp:turn:start",
+    "acp:turn:result",
+    "agent:run:end",
+    "iteration:end",
+    "orchestrator:abort",
+    "acp:close",
+    "orchestrator:end",
+    "sleep:cleanup",
+    "run:complete"
+  ],
+  "stdoutIncludesAgent": true,
+  "stderr": "gnhf: Run log: /private/var/folders/82/6wh9nw116ln7t_88yzkxg1r80000gn/T/gnhf-antigravity-live-yP3w2e/repo/.gnhf/runs/your-task-ccbed6/gnhf.log"
+}
